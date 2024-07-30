@@ -4,9 +4,12 @@ import time
 # Define the task that will be run by each node
 @task
 def sleep_task_maybe_fail_on_5(i):
+    import random
     time.sleep(1)
     if i == 5:
-        raise ValueError("Task failed on 5")
+        coin = random.choice([0, 1])
+        if coin == 0:
+            raise ValueError("Task failed on 5")
     print(f"Completed task {i}")
 
 @flow(log_prints=True)
