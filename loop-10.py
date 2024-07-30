@@ -3,15 +3,17 @@ import time
 
 # Define the task that will be run by each node
 @task
-def sleep_task(i):
+def sleep_task_maybe_fail_on_5(i):
     time.sleep(1)
+    if i == 5:
+        raise ValueError("Task failed on 5")
     print(f"Completed task {i}")
 
 @flow(log_prints=True)
 def benchmark_sequential_flow():
     # Create and run the tasks in a sequential manner
     for i in range(10):
-        sleep_task(i)
+        sleep_task_maybe_fail_on_5(i)
 
 if __name__ == "__main__":
     benchmark_sequential_flow.serve(name="benchmark-sequential-flow",
